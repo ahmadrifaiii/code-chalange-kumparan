@@ -5,8 +5,8 @@ import "github.com/caarlos0/env/v6"
 type ConfigurationEnvironment struct {
 	ApplicationEnvironment
 	DatabaseEnvironment
-	AuthEnvironment
-	RedisEnvironment
+	NATSEnvironment
+	ELASTICEnvironment
 }
 
 type ApplicationEnvironment struct {
@@ -24,14 +24,12 @@ type DatabaseEnvironment struct {
 	DBPort      string `env:"DB_PORT_MYSQL"`
 }
 
-type RedisEnvironment struct {
-	RedisHost     string `env:"REDIS_HOST" envDefault:"0.0.0.0"`
-	RedisPort     string `env:"REDIS_PORT" envDefault:"6379"`
-	RedisPassword string `env:"REDIS_PASSWORD"`
+type NATSEnvironment struct {
+	NatsHost string `env:"NATS_HOST" envDefault:"0.0.0.0:4222"`
 }
 
-type AuthEnvironment struct {
-	TokenAge string `env:"TOKEN_AGE" envDefault:"24h30m"`
+type ELASTICEnvironment struct {
+	ElasticHost string `env:"ELASTIC_HOST" envDefault:"0.0.0.0:9200"`
 }
 
 var Conf = ConfigurationEnvironment{}

@@ -1,0 +1,92 @@
+version: '3.7'
+
+services:
+  kumparan-post:
+    build: .
+    command: post-service
+    depends_on:
+      - nats
+      - elasticsearch
+      - mysql-db
+    ports:
+      - 8080
+    environment:
+      DB_MAX_IDLE_CONN: 10
+      DB_MAX_OPEN_CONN: 100
+      DB_NAME_MYSQL: kumparandb
+      DB_USER_MYSQL: nats:4222
+      DB_PASSWORD_MYSQL: kumparan
+      DB_HOST_MYSQL: mysql-db
+      DB_PORT_MYSQL: 3306
+      NATS_ADDRESS: nats:4222
+      ELASTICSEARCH_ADDRESS: elasticsearch:9200
+
+  kumparan-get:
+    build: .
+    command: get-service
+    depends_on:
+      - nats
+      - elasticsearch
+      - mysql-db
+    ports:
+      - 8080
+    environment:
+      DB_MAX_IDLE_CONN: 10
+      DB_MAX_OPEN_CONN: 100
+      DB_NAME_MYSQL: kumparandb
+      DB_USER_MYSQL: nats:4222
+      DB_PASSWORD_MYSQL: kumparan
+      DB_HOST_MYSQL: mysql-db
+      DB_PORT_MYSQL: 3306
+      NATS_ADDRESS: nats:4222
+      ELASTICSEARCH_ADDRESS: elasticsearch:9200
+
+  pusher:
+    build: .
+    command: pusher-service
+    depends_on:
+      - nats
+      - elasticsearch
+      - mysql-db
+    ports:
+      - 8080
+    environment:
+      DB_MAX_IDLE_CONN: 10
+      DB_MAX_OPEN_CONN: 100
+      DB_NAME_MYSQL: kumparandb
+      DB_USER_MYSQL: nats:4222
+      DB_PASSWORD_MYSQL: kumparan
+      DB_HOST_MYSQL: mysql-db
+      DB_PORT_MYSQL: 3306
+      NATS_ADDRESS: nats:4222
+      ELASTICSEARCH_ADDRESS: elasticsearch:9200
+
+  mysql-db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: kumparandb
+      MYSQL_USER: kumparan
+      MYSQL_PASSWORD: kumparan
+    volumes:
+      - db:/var/lib/mysql
+
+  nats:
+    image: nats-streaming:0.17.0
+    restart: always
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.6.0
+    ports:
+      - 9200:9200
+    environment:
+      - discovery.type=single-node
+
+  nginx:
+    build: ./nginx
+    ports:
+      - '8080:80'
+    depends_on:
+      - meow
+      - query
+      - pusher
