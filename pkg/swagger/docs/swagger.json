@@ -5,44 +5,9 @@
         "license": {}
     },
     "paths": {
-        "/api/v1/auth/login": {
+        "/api/v1/article/create": {
             "post": {
-                "description": "get the status of server.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Admin - Login"
-                ],
-                "summary": "User Administrator Login",
-                "parameters": [
-                    {
-                        "description": "model.LoginPayload",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "object",
-                            "$ref": "#/definitions/model.LoginPayload"
-                        }
-                    }
-                ],
-                "responses": {
-                    "202": {
-                        "description": "Accepted",
-                        "schema": {
-                            "$ref": "#/definitions/model.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/user/delete/{param}": {
-            "delete": {
-                "description": "get the status of server.",
+                "description": "create article",
                 "consumes": [
                     "*/*"
                 ],
@@ -50,18 +15,9 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Identity Access Management - User"
+                    "Article Management"
                 ],
-                "summary": "Delete the User",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "User Id",
-                        "name": "param",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
+                "summary": "Create Article",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -72,9 +28,9 @@
                 }
             }
         },
-        "/api/v1/user/detail/{param}": {
+        "/api/v1/article/list": {
             "get": {
-                "description": "get the status of server.",
+                "description": "get all list article",
                 "consumes": [
                     "*/*"
                 ],
@@ -82,96 +38,9 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Identity Access Management - User"
+                    "Article Management"
                 ],
-                "summary": "Detail of User",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "User Id",
-                        "name": "param",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "interface"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/user/list": {
-            "get": {
-                "description": "get the status of server.",
-                "consumes": [
-                    "*/*"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Identity Access Management - User"
-                ],
-                "summary": "Get List User",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "interface"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/user/register": {
-            "post": {
-                "description": "get the status of server.",
-                "consumes": [
-                    "*/*"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Identity Access Management - User"
-                ],
-                "summary": "Register User",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "interface"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/user/update/{param}": {
-            "put": {
-                "description": "get the status of server.",
-                "consumes": [
-                    "*/*"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Identity Access Management - User"
-                ],
-                "summary": "Update User",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "User Id",
-                        "name": "param",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
+                "summary": "Get Article List",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -184,17 +53,6 @@
         }
     },
     "definitions": {
-        "model.LoginPayload": {
-            "type": "object",
-            "properties": {
-                "email": {
-                    "type": "string"
-                },
-                "password": {
-                    "type": "string"
-                }
-            }
-        },
         "model.Response": {
             "type": "object",
             "properties": {

@@ -30,7 +30,7 @@ RUN apt-get update
 RUN apt-get install -y ca-certificates
 
 # Copy Binary
-COPY --from=build-golang /usr/share/ctcd/kumparan/bin /usr/share/ctcd/kumparan/bin/
+COPY --from=build-golang /usr/share/project/kumparan/bin /usr/share/project/kumparan/bin/
 
 WORKDIR /usr/share/project/kumparan
 
