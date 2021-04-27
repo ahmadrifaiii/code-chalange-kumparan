@@ -41,9 +41,9 @@ services:
       NATS_ADDRESS: nats:4222
       ELASTICSEARCH_ADDRESS: elasticsearch:9200
 
-  pusher:
+  kumparan-event:
     build: .
-    command: pusher-service
+    command: event-service
     depends_on:
       - nats
       - elasticsearch
@@ -87,6 +87,6 @@ services:
     ports:
       - '8080:80'
     depends_on:
-      - meow
-      - query
-      - pusher
+      - kumparan-post
+      - kumparan-get
+      - kumparan-event

@@ -3,7 +3,7 @@ package handler
 import (
 	"kumparan/config"
 	"kumparan/config/database"
-	article "kumparan/module/v1/user"
+	article "kumparan/module/v1/article"
 	authMid "kumparan/utl/middleware/auth"
 )
 

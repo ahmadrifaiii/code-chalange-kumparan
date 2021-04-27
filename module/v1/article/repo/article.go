@@ -11,20 +11,19 @@ import (
 )
 
 // get user list
-func GetUserList(sqlx *sqlx.DB) (users []model.User, err error) {
-	users = make([]model.User, 0)
-	var ModelUser model.User
-
+func GetUserList(sqlx *sqlx.DB) (articles []model.Article, err error) {
+	articles = make([]model.Article, 0)
+	var ModelArticle model.Article
 	// sql builder
-	st := sqlbuilder.NewStruct(ModelUser)
-	sb := st.SelectFrom(model.TabelUser)
+	st := sqlbuilder.NewStruct(ModelArticle)
+	sb := st.SelectFrom(model.TableArticle)
 
 	sqlStatement, args := sb.Build()
 
 	stmt, err := sqlx.Prepare(sqlStatement)
 
 	if err != nil {
-		return users, err
+		return articles, err
 	}
 
 	rows, err := stmt.Query(args...)
@@ -32,33 +31,33 @@ func GetUserList(sqlx *sqlx.DB) (users []model.User, err error) {
 	if err != nil {
 		if err == sql.ErrNoRows {
 			log.Error(err)
-			return users, err
+			return articles, err
 		}
-		return users, err
+		return articles, err
 	}
 
 	for rows.Next() {
-		var usr model.User
+		var usr model.Article
 		if err := rows.Scan(st.Addr(&usr)...); err != nil {
 			log.Error(err)
 			continue
 		}
 
-		users = append(users, usr)
+		articles = append(articles, usr)
 	}
 
 	return
 }
 
-// get user detail
-func GetUserDetail(sqlx *sqlx.DB, userId int) (user model.User, err error) {
-	var ModelUser model.User
+// get detail article by id
+func GetUserDetail(sqlx *sqlx.DB, articleId int) (article model.Article, err error) {
+	var ModelArticle model.Article
 
 	// sql builder
-	st := sqlbuilder.NewStruct(ModelUser)
-	sb := st.SelectFrom(model.TabelUser)
+	st := sqlbuilder.NewStruct(ModelArticle)
+	sb := st.SelectFrom(model.TableArticle)
 	sb.Where(
-		sb.Equal("id", userId),
+		sb.Equal("id", articleId),
 	)
 
 	sqlStatement, args := sb.Build()
@@ -66,7 +65,7 @@ func GetUserDetail(sqlx *sqlx.DB, userId int) (user model.User, err error) {
 	stmt, err := sqlx.Prepare(sqlStatement)
 
 	if err != nil {
-		return user, err
+		return article, err
 	}
 
 	row := stmt.QueryRow(args...)
@@ -74,20 +73,20 @@ func GetUserDetail(sqlx *sqlx.DB, userId int) (user model.User, err error) {
 	if err != nil {
 		if err == sql.ErrNoRows {
 			log.Error(err)
-			return user, err
+			return article, err
 		}
-		return user, err
+		return article, err
 	}
 
-	row.Scan(st.Addr(&user)...)
+	row.Scan(st.Addr(&article)...)
 
 	return
 }
 
-// register user
-func RegisterUser(tx *sql.Tx, p *model.UserPayload) (result sql.Result, err error) {
-	st := sqlbuilder.NewStruct(model.UserPayload{})
-	sb := st.InsertIntoForTag(model.TabelUser, "insert", *p)
+// create new article
+func CreateNewArticle(tx *sql.Tx, p *model.Article) (result sql.Result, err error) {
+	st := sqlbuilder.NewStruct(model.Article{})
+	sb := st.InsertIntoForTag(model.TableArticle, "insert", *p)
 
 	sqlStatement, args := sb.Build()
 
@@ -103,10 +102,10 @@ func RegisterUser(tx *sql.Tx, p *model.UserPayload) (result sql.Result, err erro
 	return
 }
 
-// update user
-func UpdateUser(tx *sql.Tx, p *model.UserPayload) (result sql.Result, err error) {
-	st := sqlbuilder.NewStruct(model.UserPayload{})
-	sb := st.UpdateForTag(model.TabelUser, "update", *p)
+// update article
+func UpdateArticle(tx *sql.Tx, p *model.Article) (result sql.Result, err error) {
+	st := sqlbuilder.NewStruct(model.Article{})
+	sb := st.UpdateForTag(model.TableArticle, "update", *p)
 
 	sb.Where(
 		sb.Equal("id", p.Id),
@@ -126,10 +125,10 @@ func UpdateUser(tx *sql.Tx, p *model.UserPayload) (result sql.Result, err error)
 	return
 }
 
-// delete user
-func DeleteUser(tx *sql.Tx, p *model.UserPayload) (result sql.Result, err error) {
-	st := sqlbuilder.NewStruct(model.UserPayload{})
-	sb := st.UpdateForTag(model.TabelUser, "delete", *p)
+// delete article
+func DeleteArticle(tx *sql.Tx, p *model.Article) (result sql.Result, err error) {
+	st := sqlbuilder.NewStruct(model.Article{})
+	sb := st.UpdateForTag(model.TableArticle, "delete", *p)
 	sb.Where(
 		sb.Equal("id", p.Id),
 	)
@@ -148,13 +147,13 @@ func DeleteUser(tx *sql.Tx, p *model.UserPayload) (result sql.Result, err error)
 	return
 }
 
-// get user detail by param
-func GetUserDetailByParam(sqlx *sqlx.DB, param string, value interface{}) (user model.User, err error) {
-	var ModelUser model.User
+// get detail article by param
+func GetArticleDetailByParam(sqlx *sqlx.DB, param string, value interface{}) (article model.Article, err error) {
+	var ModelArticle model.Article
 
 	// sql builder
-	st := sqlbuilder.NewStruct(ModelUser)
-	sb := st.SelectFrom(model.TabelUser)
+	st := sqlbuilder.NewStruct(ModelArticle)
+	sb := st.SelectFrom(model.TableArticle)
 	sb.Where(
 		sb.Equal(param, value),
 	)
@@ -164,7 +163,7 @@ func GetUserDetailByParam(sqlx *sqlx.DB, param string, value interface{}) (user 
 	stmt, err := sqlx.Prepare(sqlStatement)
 
 	if err != nil {
-		return user, err
+		return article, err
 	}
 
 	row := stmt.QueryRow(args...)
@@ -172,12 +171,12 @@ func GetUserDetailByParam(sqlx *sqlx.DB, param string, value interface{}) (user 
 	if err != nil {
 		if err == sql.ErrNoRows {
 			log.Error(err)
-			return user, err
+			return article, err
 		}
-		return user, err
+		return article, err
 	}
 
-	row.Scan(st.Addr(&user)...)
+	row.Scan(st.Addr(&article)...)
 
 	return
 }

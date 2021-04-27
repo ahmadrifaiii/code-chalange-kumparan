@@ -1,27 +1,14 @@
 package model
 
-const TabelUser = "user"
+const TableArticle = "article"
 
-type User struct {
+type Article struct {
 	Id        int    `json:"id" db:"id"`
-	Name      string `json:"name" db:"user_name" fieldtag:"insert,update"`
-	Email     string `json:"email" db:"user_email" fieldtag:"insert,update"`
-	Password  string `json:"password" db:"user_password" fieldtag:"insert,update"`
-	Deleted   int    `json:"deleted" db:"deleted" fieldtag:"insert,update,delete"`
+	Author    string `json:"author" db:"article_author" fieldtag:"insert,update"`
+	Title     string `json:"title" db:"article_title" fieldtag:"insert,update"`
+	Body      string `json:"body" db:"article_body" fieldtag:"insert,update"`
 	CreatedAt string `json:"created_at,omitempty" db:"created_at"`
 	CreatedBy string `json:"created_by,omitempty" db:"created_by" fieldtag:"insert"`
 	UpdatedAt string `json:"updated_at,omitempty" db:"updated_at"`
 	UpdatedBy string `json:"updated_by,omitempty" db:"updated_by" fieldtag:"insert,update"`
-}
-
-type UserPayload struct {
-	Id        int    `json:"id" db:"id"`
-	Name      string `json:"name" db:"user_name" fieldtag:"insert,update"`
-	Email     string `json:"email" db:"user_email" fieldtag:"insert,update"`
-	Password  string `json:"password" db:"user_password" fieldtag:"insert"`
-	Deleted   int    `json:"deleted" db:"deleted" fieldtag:"insert,delete"`
-	CreatedAt string `json:"created_at" db:"created_at"`
-	CreatedBy string `json:"created_by" db:"created_by" fieldtag:"insert"`
-	UpdatedAt string `json:"updated_at" db:"updated_at"`
-	UpdatedBy string `json:"updated_by" db:"updated_by" fieldtag:"insert,update"`
 }
