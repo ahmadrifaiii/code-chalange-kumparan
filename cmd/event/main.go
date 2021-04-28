@@ -1,25 +1,24 @@
 package main
 
 import (
+	"fmt"
 	"kumparan/config/env"
 	"kumparan/handler"
-	"os"
-	"os/signal"
+	"runtime"
 )
 
 func main() {
+	fmt.Println("[EVENT RUN]")
 	env.LoadEnv()
 
 	// Init dependencies
 	service := handler.InitHandler()
 
-	// start echo server
-	service.StartServer()
+	go service.ArticleModule.EventCreateArticle()
 
-	// Shutdown with gracefull handler
-	service.ShutdownServer()
+	// quit := make(chan os.Signal)
+	// signal.Notify(quit, os.Interrupt)
+	// <-quit
 
-	quit := make(chan os.Signal)
-	signal.Notify(quit, os.Interrupt)
-	<-quit
+	runtime.Goexit()
 }

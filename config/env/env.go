@@ -29,7 +29,7 @@ type NATSEnvironment struct {
 }
 
 type ELASTICEnvironment struct {
-	ElasticHost string `env:"ELASTIC_HOST" envDefault:"0.0.0.0:9200"`
+	ElasticHost string `env:"ELASTIC_HOST" envDefault:"http://0.0.0.0:9200"`
 }
 
 var Conf = ConfigurationEnvironment{}

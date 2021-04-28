@@ -82,7 +82,7 @@ func (m *Module) ArticleNew(c echo.Context) error {
 	return response.Success(c, model.Response{
 		LogId:   requestId,
 		Status:  http.StatusOK,
-		Message: "user has been registered",
+		Message: "article has been create",
 		Data:    resp,
 	})
 }

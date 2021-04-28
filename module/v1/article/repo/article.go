@@ -11,7 +11,7 @@ import (
 )
 
 // get user list
-func GetUserList(sqlx *sqlx.DB) (articles []model.Article, err error) {
+func GetArticleList(sqlx *sqlx.DB) (articles []model.Article, err error) {
 	articles = make([]model.Article, 0)
 	var ModelArticle model.Article
 	// sql builder
@@ -50,7 +50,7 @@ func GetUserList(sqlx *sqlx.DB) (articles []model.Article, err error) {
 }
 
 // get detail article by id
-func GetUserDetail(sqlx *sqlx.DB, articleId int) (article model.Article, err error) {
+func GetArticleDetail(sqlx *sqlx.DB, articleId int) (article model.Article, err error) {
 	var ModelArticle model.Article
 
 	// sql builder
