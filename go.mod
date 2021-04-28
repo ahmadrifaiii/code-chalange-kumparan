@@ -16,7 +16,7 @@ require (
 	github.com/labstack/gommon v0.3.0
 	github.com/nats-io/nats-server/v2 v2.2.2 // indirect
 	github.com/nats-io/nats.go v1.10.1-0.20210419223411-20527524c393
-	github.com/olivere/elastic v6.2.35+incompatible // indirect
+	github.com/olivere/elastic v6.2.35+incompatible
 	github.com/olivere/elastic/v7 v7.0.24
 	github.com/swaggo/echo-swagger v1.1.0
 	github.com/swaggo/swag v1.7.0

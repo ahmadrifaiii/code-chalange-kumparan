@@ -5,6 +5,7 @@ import (
 	"kumparan/module/v1/article/usecase"
 	"kumparan/utl/response"
 	"net/http"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 )
@@ -26,8 +27,59 @@ func (m *Module) articleList(c echo.Context) error {
 		requestId = c.Get("request_id").(string)
 	)
 
+	// limit
+	limit, _ := strconv.Atoi(c.QueryParam("limit"))
+	if limit == 0 {
+		limit = 1000
+	}
+
+	// page
+	page, _ := strconv.Atoi(c.QueryParam("page"))
+	if page == 0 {
+		page = 1
+	}
+
+	// sort key
+	sortKey := c.QueryParam("sort.key")
+	if sortKey == "" {
+		sortKey = "created_at"
+	}
+
+	// sort value
+	sortVal := c.QueryParam("sort.value")
+	if sortVal == "" {
+		sortVal = "DESC"
+	}
+
+	// search key
+	searchKey := c.QueryParam("search.key")
+
+	// sort value
+	searchVal := c.QueryParam("sort.value")
+
+	filterAuthor := c.QueryParam("filter.author")
+	filterTitle := c.QueryParam("filter.title")
+
 	// usecase get user list
-	resp, err := usecase.ArticleList(m.Config)
+	resp, err := usecase.ElasticArticleList(m.Config, &model.QueryReq{
+		Search: model.Search{
+			Key:   searchKey,
+			Value: searchVal,
+		},
+		Filter: model.Filter{
+			Author: filterAuthor,
+			Title:  filterTitle,
+		},
+		Sort: model.Sort{
+			Key:   sortKey,
+			Value: sortVal,
+		},
+		PaginationRequest: model.PaginationRequest{},
+	}, &model.Pagination{
+		Limit:       limit,
+		CurrentPage: page,
+	})
+
 	if err != nil {
 		return response.Error(c, model.Response{
 			LogId:   requestId,
