@@ -7,7 +7,7 @@ services:
     depends_on:
       - kumparan-nats
       - kumparan-elasticsearch
-      - mysql-db
+      - kumparan-mysql
     ports:
       - '8080:8080'
     environment:
@@ -16,7 +16,7 @@ services:
       DB_NAME_MYSQL: kumparandb
       DB_USER_MYSQL: nats:4222
       DB_PASSWORD_MYSQL: kumparan
-      DB_HOST_MYSQL: mysql-db
+      DB_HOST_MYSQL: kumparan-mysql
       DB_PORT_MYSQL: 3306
       NATS_ADDRESS: kumparan-nats:4222
       ELASTICSEARCH_ADDRESS: kumparan-elasticsearch:9200
@@ -27,19 +27,19 @@ services:
     depends_on:
       - kumparan-nats
       - kumparan-elasticsearch
-      - mysql-db
+      - kumparan-mysql
     environment:
       DB_MAX_IDLE_CONN: 10
       DB_MAX_OPEN_CONN: 100
       DB_NAME_MYSQL: kumparandb
       DB_USER_MYSQL: nats:4222
       DB_PASSWORD_MYSQL: kumparan
-      DB_HOST_MYSQL: mysql-db
+      DB_HOST_MYSQL: kumparan-mysql
       DB_PORT_MYSQL: 3306
       NATS_ADDRESS: kumparan-nats:4222
       ELASTICSEARCH_ADDRESS: elasticsearch:9200
 
-  mysql-db:
+  kumparan-mysql:
     image: mysql:5.7
     restart: always
     ports:
@@ -48,8 +48,8 @@ services:
       MYSQL_DATABASE: kumparandb
       MYSQL_USER: kumparan
       MYSQL_PASSWORD: kumparan
-    volumes:
-      - db:/var/lib/mysql
+    # volumes:
+    #   - mysql-db:/var/lib/mysql
 
   kumparan-nats:
     image: nats-streaming:0.17.0
@@ -61,3 +61,6 @@ services:
       - '9200:9200'
     environment:
       - discovery.type=single-node
+
+  # volumes:
+  #   mysql-db:
